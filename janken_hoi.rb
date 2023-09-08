@@ -77,7 +77,7 @@ class Janken_hoi
     def play_atimuitehoi #あっち向いてほい関数
         @is_atimuitehoi = true
         puts "あっち向いて..."
-        puts "0(上)1(左)2(右)"
+        puts "0(上)1(下)2(左)3(右)"
 
         gets_choice
 
@@ -90,8 +90,10 @@ class Janken_hoi
         when 0
         return "上"
         when 1
-        return "左"
+        return "下"
         when 2
+        return "左"
+        when 3
         return "右"
         else nil
         end
