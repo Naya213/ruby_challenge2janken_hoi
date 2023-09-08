@@ -106,7 +106,12 @@ class Janken_hoi
         puts "あなた：#{@user_choice}"
         puts "相手：#{@partner_choice}"
         puts "---------------"
-        start_janken
+
+        if @user_choice == @partner_choice #お互いの選択肢が同じならゲームを終える
+            return
+        else
+            start_janken #勝敗がつかなければじゃんけんへループする
+        end
     end
 
 end
