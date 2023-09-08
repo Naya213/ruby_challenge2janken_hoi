@@ -1,6 +1,7 @@
 class Janken_hoi
 
     def start_janken
+        @is_user_winner = false #ユーザーは勝っているか？
         @is_atimuitehoi = false #あっち向いてほいか（選択肢の文字列変換の切り替えに使用）
         puts "じゃんけん..."
         puts "0(グー)1(チョキ)2(パー)3(戦わない)"
@@ -41,6 +42,24 @@ class Janken_hoi
         end
     end
 
+    def judge_winner #勝者を判断する
+        @choices = {
+            user_choice: "",
+            partner_choice: ""
+          } #じゃんけんの選択肢を入れるハッシュ
+
+        @choices[:user_choice] = @user_choice
+        @choices[:partner_choice] = @partner_choice
+
+        case @choices
+        when {user_choice:"グー",partner_choice:"チョキ"}, #ユーザーが勝者になる３つのパターン
+            {user_choice:"チョキ",partner_choice:"パー"},
+            {user_choice:"パー",partner_choice:"グー"}
+
+            @is_user_winner = true
+        end
+    end
+
     def play_janken_result(user_choice) #じゃんけん挑戦結果
         if @user_choice == "戦わない" #ユーザーの選択肢が「戦わない」なら停止する
             puts "戦わない"
@@ -53,6 +72,8 @@ class Janken_hoi
         puts "あなた：#{@user_choice}を出しました"
         puts "相手：#{@partner_choice}を出しました"
         puts "---------------"
+
+        judge_winner #じゃんけんの勝者はどちらか?
 
         if @user_choice === @partner_choice #じゃんけんがあいこならあいこする
             continue_janken 
@@ -109,8 +130,10 @@ class Janken_hoi
         puts "相手：#{@partner_choice}"
         puts "---------------"
 
-        if @user_choice == @partner_choice #お互いの選択肢が同じならゲームを終える
-            return
+        if @user_choice == @partner_choice && @is_user_winner == true #お互いの選択肢が同じならゲームを終える
+            return puts "あなたの勝ち！"
+        elsif @user_choice == @partner_choice && @is_user_winner == false
+            return puts "あなたの負け！"
         else
             start_janken #勝敗がつかなければじゃんけんへループする
         end
